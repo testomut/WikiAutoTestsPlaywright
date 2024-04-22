@@ -1,5 +1,5 @@
 import { test } from '@playwright/test';
-import WikipediaMainPage from './pageObjects/WikipediaMainPage';
+import WikipediaMainPage from '../pageObjects/WikipediaMainPage';
 
 test.describe('Category Navigation', () => {
     let wikipediaMainPage: WikipediaMainPage;

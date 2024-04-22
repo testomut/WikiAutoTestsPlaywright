@@ -1,5 +1,5 @@
 import { test } from '@playwright/test';
-import WikipediaSandboxPage from './pageObjects/WikipediaSandboxPage';
+import WikipediaSandboxPage from '../pageObjects/WikipediaSandboxPage';
 
 test.describe('Sandbox Editing', () => {
   let sandboxPage: WikipediaSandboxPage;
