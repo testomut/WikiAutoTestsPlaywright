@@ -1,5 +1,5 @@
 import { test } from '@playwright/test';
-import WikipediaAuthenticationPage from './pageObjects/WikipediaAuthenticationPage';
+import WikipediaAuthenticationPage from '../pageObjects/WikipediaAuthenticationPage';
 
 test.describe('Oauth Functionality', () => {
     let authPage;
