@@ -24,12 +24,12 @@ test.describe('Category Navigation', () => {
     test('Navigate to View source for Main Page from the homepage', async () => {
         await wikipediaMainPage.clickOnViewSource();
         await wikipediaMainPage.urlShouldInclude('title=Main_Page&action=edit');
-        await wikipediaMainPage.clickOnLogo(); // Предполагается, что это возвращает на главную страницу
+        await wikipediaMainPage.clickOnLogo();
     });
 
     test('Navigate to Main Page: Revision history from the homepage', async () => {
         await wikipediaMainPage.clickOnViewHistory();
         await wikipediaMainPage.urlShouldInclude('title=Main_Page&action=history');
-        await wikipediaMainPage.clickOnLogo(); // Предполагается, что это возвращает на главную страницу
+        await wikipediaMainPage.clickOnLogo();
     });
 });

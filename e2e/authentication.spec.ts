@@ -5,7 +5,7 @@ test.describe('Oauth Functionality', () => {
     let authPage;
     let context;
     let page;
-    const userLogin = process.env.USERNAME_WIKI; // Используйте переменные окружения Playwright
+    const userLogin = process.env.USERNAME_WIKI;
     const userPassword = process.env.PASSWORD_WIKI;
 
     test.beforeEach(async ({ browser }) => {
