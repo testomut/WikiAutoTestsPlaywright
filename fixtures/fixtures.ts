@@ -15,6 +15,7 @@ export const test = baseTest.extend<TestFixtures>({
         const mainPage = new WikipediaMainPage(page);
         await mainPage.visit();
         await use(mainPage);
+        await mainPage.clickOnLogo();
     },
     authPage: async ({ page }, use) => {
         const authPage = new WikipediaAuthenticationPage(page);

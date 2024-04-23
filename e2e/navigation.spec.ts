@@ -19,13 +19,11 @@ test.describe('Category Navigation', () => {
     test('Navigate to View source for Main Page from the homepage', async ({ mainPage }) => {
         await mainPage.clickOnViewSource(); // Clicks the "View source" tab for the current page.
         await mainPage.urlShouldInclude('title=Main_Page&action=edit'); // Ensures the URL indicates the edit action.
-        await mainPage.clickOnLogo(); // Returns to the Main Page by clicking the logo, useful for resetting the state.
     });
 
     // Test navigation to the Revision History page of the Main Page.
     test('Navigate to Main Page: Revision history from the homepage', async ({ mainPage }) => {
         await mainPage.clickOnViewHistory(); // Clicks the "View history" tab.
         await mainPage.urlShouldInclude('title=Main_Page&action=history'); // Checks if the URL indicates the history action.
-        await mainPage.clickOnLogo(); // Returns to the Main Page by clicking the logo, useful for resetting the state.
     });
 });
