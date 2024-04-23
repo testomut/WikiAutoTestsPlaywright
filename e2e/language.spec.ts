@@ -1,51 +1,41 @@
-import { test } from '@playwright/test';
-import WikipediaMainPage from '../pageObjects/WikipediaMainPage';
+import { test } from '../fixtures/fixtures';
 
 test.describe('Change Language Functionality', () => {
-    let wikipediaMainPage: WikipediaMainPage;
-
-    test.beforeEach(async ({ page }) => {
-        wikipediaMainPage = new WikipediaMainPage(page);
-        await wikipediaMainPage.visit();
+    test('Switch to a language with a full version of the article', async ({ mainPage }) => {
+        // Switching to Spanish
+        await mainPage.switchLanguage('es');
+        await mainPage.urlShouldInclude('es');
     });
 
-    test('Switch to a language with a full version of the article', async () => {
-        // Spanish
-        await wikipediaMainPage.switchLanguage('es');
-        await wikipediaMainPage.urlShouldInclude('es');
+    test('Switch to a language where the article does not exist', async ({ mainPage }) => {
+        // Switching to Welsh, expecting no article
+        await mainPage.switchLanguage('cy', false);
+        await mainPage.verifyArticleDoesNotExist();
     });
 
-    test('Switch to a language where the article does not exist', async () => {
-        // Welsh
-        await wikipediaMainPage.switchLanguage('cy', false);
-        await wikipediaMainPage.verifyArticleDoesNotExist();
-    });
-
-    test('Verify articles availability in most popular languages', async () => {
-        // English
-        await wikipediaMainPage.switchLanguage('en');
-        await wikipediaMainPage.urlShouldInclude('en');
+    test('Verify articles availability in most popular languages', async ({ mainPage }) => {
+        // Checking multiple languages starting with English
+        await mainPage.switchLanguage('en');
+        await mainPage.urlShouldInclude('en');
     
-        // German
-        await wikipediaMainPage.switchLanguage('de');
-        await wikipediaMainPage.urlShouldInclude('de');
+        // Checking German
+        await mainPage.switchLanguage('de');
+        await mainPage.urlShouldInclude('de');
     
-        // French
-        await wikipediaMainPage.switchLanguage('fr');
-        await wikipediaMainPage.urlShouldInclude('fr');
+        // Checking French
+        await mainPage.switchLanguage('fr');
+        await mainPage.urlShouldInclude('fr');
     });
 
-    test('Switch to a language and switch back to check if the original context is preserved', async () => {
-        // English
-        await wikipediaMainPage.switchLanguage('en');
-        await wikipediaMainPage.urlShouldInclude('en');
+    test('Switch to a language and switch back to check if the original context is preserved', async ({ mainPage }) => {
+        // Switching to English, then to French, and back to English
+        await mainPage.switchLanguage('en');
+        await mainPage.urlShouldInclude('en');
 
-        // French
-        await wikipediaMainPage.switchLanguage('fr');
-        await wikipediaMainPage.urlShouldInclude('fr');
+        await mainPage.switchLanguage('fr');
+        await mainPage.urlShouldInclude('fr');
 
-        // Returns to English
-        await wikipediaMainPage.switchLanguage('en');
-        await wikipediaMainPage.urlShouldInclude('en');
+        await mainPage.switchLanguage('en');
+        await mainPage.urlShouldInclude('en');
     });
 });
