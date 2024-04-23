@@ -22,7 +22,7 @@ npm install
 
 # Run tests
 npx playwright test
-```bash
+```
 ## Technology Stack
 
 This project utilizes a number of powerful technologies and tools to ensure high-quality testing and automation:
@@ -53,4 +53,4 @@ To execute tests, use the following command:
 
 ```bash
 npx playwright test
-```bash
+```
