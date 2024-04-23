@@ -30,9 +30,6 @@ This project utilizes a number of powerful technologies and tools to ensure high
 - **Playwright**: Utilizes this Node library to automate actions in Chromium, Firefox, and WebKit with a single API. Playwright is built to enable cross-browser web automation that is ever-green, capable, reliable, and fast.
 - **Node.js**: Provides the runtime environment in which the project's JavaScript code is executed. Node.js is crucial for using npm packages and running JavaScript on the server-side.
 - **TypeScript**: Enhances JavaScript by adding static types. TypeScript is used for writing clearer, error-checked code and is transpiled to JavaScript that can be executed by the Node environment.
-- **Jest**: Although not previously mentioned, if Jest is used, it provides a framework for all automated test cases, offering features like test organization, async testing, and mock services.
-- **Postman and Swagger**: These tools are used for API testing and documentation. Postman allows for easy sending of REST requests and automated tests for APIs, while Swagger facilitates API design and interactive documentation.
-- **Playwright Test**: This is Playwright's test runner, which is configured to run tests written with Playwright API in a reliable and efficient manner.
 
 ## Configuration
 
@@ -55,11 +52,3 @@ To execute tests, use the following command:
 npx playwright test
 ```
 This command runs the entire test suite defined in the Playwright configuration. For more targeted tests, Playwright supports running specific test files or suites, which can be specified via command line arguments.
-
-### Running Specific Tests
-
-To run a specific test file, you can use the command:
-
-```bash
-npx playwright test path/to/test-file.ts
-```
