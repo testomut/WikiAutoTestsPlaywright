@@ -54,3 +54,12 @@ To execute tests, use the following command:
 ```bash
 npx playwright test
 ```
+This command runs the entire test suite defined in the Playwright configuration. For more targeted tests, Playwright supports running specific test files or suites, which can be specified via command line arguments.
+
+### Running Specific Tests
+
+To run a specific test file, you can use the command:
+
+```bash
+npx playwright test path/to/test-file.ts
+```
