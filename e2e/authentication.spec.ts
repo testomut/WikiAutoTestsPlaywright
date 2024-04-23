@@ -1,29 +1,12 @@
-import { test } from '@playwright/test';
-import WikipediaAuthenticationPage from '../pageObjects/WikipediaAuthenticationPage';
+import { test } from '../fixtures/fixtures';
 
 // Describes a test suite for testing OAuth functionality on Wikipedia.
 test.describe('Oauth Functionality', () => {
-    let authPage;
-    let context;
-    let page;
-    const userLogin = process.env.USERNAME_WIKI;  // Load the Wikipedia username from environment variables
-    const userPassword = process.env.PASSWORD_WIKI; // Load the Wikipedia password from environment variables
-
-    // Setup for each test: creates a new browser context and page, then navigates to the login page.
-    test.beforeEach(async ({ browser }) => {
-        context = await browser.newContext();  // Create a new browser context for isolation
-        page = await context.newPage();  // Open a new page within the browser context
-        authPage = new WikipediaAuthenticationPage(page);  // Instantiate the authentication page object
-        await authPage.visitLoginPage();  // Navigate to the Wikipedia login page
-    });
-
-    // Cleanup after each test: closes the browser context to free resources.
-    test.afterEach(async () => {
-        await context.close();  // Close the browser context after each test
-    });
+    const userLogin = process.env.USERNAME_WIKI as string;;  // Load the Wikipedia username from environment variables
+    const userPassword = process.env.PASSWORD_WIKI as string;; // Load the Wikipedia password from environment variables
 
     // Tests that a user can successfully log in with the correct credentials.
-    test('Successfully logs in with correct credentials', async () => {
+    test('Successfully logs in with correct credentials', async ({ authPage }) => {
         console.log(userLogin, userPassword);  // Output the username and password to console (useful for debugging)
         await authPage.authenticateUser({
             login: userLogin,
@@ -33,7 +16,7 @@ test.describe('Oauth Functionality', () => {
     });
 
     // Tests that login fails when incorrect credentials are used.
-    test('Fails to log in with incorrect credentials', async () => {
+    test('Fails to log in with incorrect credentials', async ({ authPage }) => {
         await authPage.authenticateUser({
             login: 'wrongUser',
             password: 'wrongPassword'
@@ -42,7 +25,7 @@ test.describe('Oauth Functionality', () => {
     });
 
     // Tests that login fails with a correct username but incorrect password.
-    test('Fails to log in with correct username and incorrect password', async () => {
+    test('Fails to log in with correct username and incorrect password', async ({ authPage }) => {
         await authPage.authenticateUser({
             login: userLogin,
             password: 'wrongPassword'
@@ -51,7 +34,7 @@ test.describe('Oauth Functionality', () => {
     });
 
     // Tests that a user can successfully log out after logging in.
-    test('Successfully logs out', async () => {
+    test('Successfully logs out', async ({ authPage }) => {
         await authPage.authenticateUser({
             login: userLogin,
             password: userPassword
