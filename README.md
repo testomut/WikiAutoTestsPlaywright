@@ -42,7 +42,7 @@ fixtures/     Playwright fixtures wiring page objects into tests
 
 ## Smoke tests versus examples
 
-`e2e/smoke/` is what runs in CI on every push: navigation and search, both credential-free and stable enough to gate on. `e2e/examples/` covers login, sandbox editing, and language switching - these are real, working Playwright tests, but they depend on things this repo doesn't control: a Wikipedia account, Wikipedia's own login flow (which may ask for email verification), anti-abuse checks on the shared `Wikipedia:Sandbox` page, and a language-switcher widget that's more prone to UI drift than plain navigation. A red run in `test:examples` means Wikipedia changed something, not that the suite is broken.
+`e2e/smoke/` is what runs in CI on every push: navigation and search, both credential-free and stable enough to gate on. `e2e/examples/` covers login, sandbox editing, and language switching - these are real, working Playwright tests, but they depend on things this repo doesn't control: a Wikipedia account, Wikipedia's own login flow (which may ask for email verification), anti-abuse checks on the shared `Wikipedia:Sandbox` page, and a language-switcher widget that's more prone to UI drift than plain navigation. A red run in `test:examples` may be caused by Wikipedia UI changes, authentication requirements, anti-abuse checks, shared state, or a regression in the test code. These scenarios are therefore reviewed manually rather than used as a CI gate.
 
 ## Installation
 
