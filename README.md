@@ -6,7 +6,7 @@ This repository is the Playwright counterpart of my [Cypress Wikipedia reference
 
 ## Related implementation
 
-Cypress version: [testomut/WikiAutoTestsCypress](https://github.com/testomut/WikiAutoTestsCypress) - same scenarios (navigation, search, authentication, sandbox editing, language switching), same smoke-vs-examples split, implemented with Cypress instead.
+Cypress version: [testomut/WikiAutoTestsCypress](https://github.com/testomut/WikiAutoTestsCypress) - same scenarios (navigation, search, authentication, sandbox editing, language switching), the same functional scope and the same principle of separating stable smoke checks from live-site examples, implemented with Cypress instead.
 
 ## Cypress vs. Playwright, as implemented here
 
