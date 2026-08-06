@@ -1,6 +1,22 @@
 # Wikipedia Playwright Reference Project
 
-This project started as a technical assignment and was later cleaned up as a small Playwright reference project. It demonstrates how I organize UI tests, Page Objects, configuration, reporting, and CI against a live third-party application.
+[![Playwright Smoke](https://github.com/testomut/WikiAutoTestsPlaywright/actions/workflows/playwright.yml/badge.svg)](https://github.com/testomut/WikiAutoTestsPlaywright/actions/workflows/playwright.yml)
+
+This repository is the Playwright counterpart of my [Cypress Wikipedia reference project](https://github.com/testomut/WikiAutoTestsCypress). Both projects use the same functional scenarios to demonstrate how test structure, locators, configuration, reporting, debugging, and CI differ between Cypress and Playwright.
+
+## Related implementation
+
+Cypress version: [testomut/WikiAutoTestsCypress](https://github.com/testomut/WikiAutoTestsCypress) - same scenarios (navigation, search, authentication, sandbox editing, language switching), same smoke-vs-examples split, implemented with Cypress instead.
+
+## Cypress vs. Playwright, as implemented here
+
+Specific, code-level differences between the two repos - not a general framework comparison:
+
+- **Chaining vs. async/await** - Cypress specs read as `cy.get(...).should(...)` chains; this repo's page objects are plain `async`/`await` with explicit `Locator`/`expect` calls.
+- **Auto-waiting** - Playwright's `Locator` actions auto-wait for actionability, but it isn't a silver bullet: this repo still has one fixed `waitForTimeout` for a dialog's render timing, same as the Cypress project's own fixed `cy.wait()` calls for the same kind of problem.
+- **Debugging artifacts** - Cypress here relies on video/screenshot capture plus a Mochawesome HTML report; this repo uses Playwright's trace viewer (`retain-on-failure`) plus screenshots and its own HTML report - a full step-by-step DOM/network/console recording, not just a video.
+- **Configuration** - the Cypress project stays in JS with JSDoc (documented as a deliberate size-based choice in its `ARCHITECTURE.md`); this one uses TypeScript directly with `tsc --noEmit` as its own CI step.
+- **CI** - the Cypress workflow caches the Cypress binary via `actions/cache` before `npm ci`; this one installs browsers with Playwright's own `npx playwright install --with-deps`, which is the tool's standard CI setup rather than a cacheable binary download.
 
 ## What this project demonstrates
 
