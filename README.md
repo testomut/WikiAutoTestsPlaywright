@@ -1,54 +1,78 @@
-# WikiAutoTestsPlaywright
+# Wikipedia Playwright Reference Project
 
-This repository contains automated test scripts for testing Wikipedia using Playwright. It aims to ensure that various functionalities of Wikipedia, such as user authentication, article manipulation, and interface interaction, perform as expected.
+This project started as a technical assignment and was later cleaned up as a small Playwright reference project. It demonstrates how I organize UI tests, Page Objects, configuration, reporting, and CI against a live third-party application.
 
-## Prerequisites
+## What this project demonstrates
 
-Before you begin, ensure you have Node.js installed (preferably the latest LTS version).
+- Page Object Model with Playwright's own `test.extend()` fixtures, instead of a separate test-setup layer
+- A small deterministic smoke suite kept apart from live-site examples
+- Environment-based configuration (`baseURL`, credentials) instead of hardcoded URLs
+- Trace and screenshot capture wired for failure triage, not just a default reporter
+- A CI workflow that only runs what's actually stable
+
+## Stack
+
+Playwright, TypeScript, ESLint + Prettier, GitHub Actions.
+
+## Project structure
+
+```
+e2e/
+  smoke/      navigation + search - runs in CI, no credentials needed
+  examples/   authentication, editing, language switching - run manually
+pageObjects/  one class per page/feature area
+fixtures/     Playwright fixtures wiring page objects into tests
+```
+
+## Smoke tests versus examples
+
+`e2e/smoke/` is what runs in CI on every push: navigation and search, both credential-free and stable enough to gate on. `e2e/examples/` covers login, sandbox editing, and language switching - these are real, working Playwright tests, but they depend on things this repo doesn't control: a Wikipedia account, Wikipedia's own login flow (which may ask for email verification), anti-abuse checks on the shared `Wikipedia:Sandbox` page, and a language-switcher widget that's more prone to UI drift than plain navigation. A red run in `test:examples` means Wikipedia changed something, not that the suite is broken.
 
 ## Installation
 
-To set up this project locally, follow the instructions below:
-
 ```bash
-# Clone the repository
 git clone https://github.com/testomut/WikiAutoTestsPlaywright.git
-
-# Navigate to the project directory
 cd WikiAutoTestsPlaywright
-
-# Install dependencies
-npm install
-
-# Run tests
-npx playwright test
+npm ci
+npx playwright install chromium
 ```
-## Technology Stack
 
-This project utilizes a number of powerful technologies and tools to ensure high-quality testing and automation:
+## Environment setup
 
-- **Playwright**: Utilizes this Node library to automate actions in Chromium, Firefox, and WebKit with a single API. Playwright is built to enable cross-browser web automation that is ever-green, capable, reliable, and fast.
-- **Node.js**: Provides the runtime environment in which the project's JavaScript code is executed. Node.js is crucial for using npm packages and running JavaScript on the server-side.
-- **TypeScript**: Enhances JavaScript by adding static types. TypeScript is used for writing clearer, error-checked code and is transpiled to JavaScript that can be executed by the Node environment.
-
-## Configuration
-
-Here's a brief guide on how the project is configured:
-
-- **playwright.config.ts**: This file contains all Playwright-specific configurations, including test runner options, browser options, and hooks for setting up and tearing down the testing environment.
-
-## Dependencies
-
-To manage project dependencies, the following steps are typical:
-
-1. **Package Installation**: Run `npm install` to fetch all necessary packages as defined in `package.json`.
-2. **Updating Dependencies**: To update dependencies, use `npm update` to retrieve the latest versions that match the version ranges specified in the `package.json`.
-
-## Running Tests
-
-To execute tests, use the following command:
+Copy `.env.example` to `.env` and fill in a disposable Wikipedia account if you want to run the examples suite:
 
 ```bash
-npx playwright test
+cp .env.example .env
 ```
-This command runs the entire test suite defined in the Playwright configuration. For more targeted tests, Playwright supports running specific test files or suites, which can be specified via command line arguments.
+
+`e2e/smoke` needs none of this.
+
+## Commands
+
+| Command                                 | What it does                                                |
+| --------------------------------------- | ----------------------------------------------------------- |
+| `npm test`                              | Smoke suite, headless                                       |
+| `npm run test:smoke`                    | Same as above, explicit                                     |
+| `npm run test:examples`                 | Login, editing, language examples (needs `.env`)            |
+| `npm run test:all`                      | Everything                                                  |
+| `npm run test:headed`                   | Smoke suite, headed                                         |
+| `npm run test:debug`                    | Smoke suite, Playwright inspector                           |
+| `npm run test:ui`                       | Playwright's UI mode                                        |
+| `npm run lint` / `format` / `typecheck` | ESLint / Prettier / `tsc --noEmit`                          |
+| `npm run test:ci`                       | Lint + format check + typecheck + smoke suite, what CI runs |
+
+## Reports and traces
+
+Each run writes an HTML report to `playwright-report/` (`npx playwright show-report` to open it). Traces and screenshots are kept on failure only (`retain-on-failure` / `only-on-failure` in `playwright.config.ts`) - open a trace with `npx playwright show-trace <path>`.
+
+## Live-site limitations
+
+This isn't a Wikipedia QA suite. Wikipedia is a live third-party system I don't control, and the examples suite can fail for reasons that have nothing to do with this code: UI changes, CAPTCHA, rate limits, other anti-abuse mechanisms, or shared state on the sandbox page. The smoke suite is scoped to what stays stable.
+
+## Author
+
+Stanislav Mokshyn - [github.com/testomut](https://github.com/testomut)
+
+## License
+
+[MIT](./LICENSE)

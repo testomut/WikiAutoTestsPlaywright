@@ -1,0 +1,58 @@
+name: Playwright Examples (manual)
+
+# Runs the reference example scenarios (e2e/examples/**), not part of
+# the CI gate - see playwright.yml. They depend on live Wikipedia
+# state (login flow, anti-abuse checks, a shared sandbox page), so a
+# red run here doesn't mean the code is broken.
+#
+# Needs USERNAME_WIKI/PASSWORD_WIKI repository secrets.
+# Trigger manually: Actions tab -> this workflow -> "Run workflow".
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  examples:
+    name: Run the example Playwright scenarios
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run example scenarios
+        run: npm run test:examples
+        env:
+          USERNAME_WIKI: ${{ secrets.USERNAME_WIKI }}
+          PASSWORD_WIKI: ${{ secrets.PASSWORD_WIKI }}
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-examples-report
+          path: playwright-report/
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Upload traces and screenshots
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-examples-traces
+          path: test-results/
+          if-no-files-found: ignore
+          retention-days: 14

@@ -1,16 +1,43 @@
 {
-  "name": "mocha-playwright-project",
+  "name": "wikipedia-playwright-reference",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "mocha"
+  "description": "Playwright reference project exercising Wikipedia: Page Objects, fixtures, and CI smoke suite.",
+  "license": "MIT",
+  "author": "Stanislav Mokshyn <https://github.com/testomut>",
+  "keywords": [
+    "playwright",
+    "typescript",
+    "test-automation",
+    "page-object-model"
+  ],
+  "engines": {
+    "node": ">=20"
   },
-  "author": "Stanisalv Mokshyn",
-  "license": "ISC",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit",
+    "test:smoke": "playwright test --project=chromium e2e/smoke",
+    "test:examples": "playwright test --project=chromium e2e/examples",
+    "test": "npm run test:smoke",
+    "test:all": "playwright test --project=chromium",
+    "test:headed": "npm run test:smoke -- --headed",
+    "test:debug": "npm run test:smoke -- --debug",
+    "test:ui": "playwright test --ui",
+    "test:ci": "npm run lint && npm run format:check && npm run typecheck && npm run test:smoke"
+  },
   "devDependencies": {
-    "playwright": "^1.28.1",
-    "mocha": "^10.0.0",
-    "@playwright/test": "^1.28.1"
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^20.12.12",
+    "dotenv": "^16.4.5",
+    "eslint": "^10.8.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-playwright": "^2.11.0",
+    "prettier": "^3.9.6",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.66.0"
   }
 }

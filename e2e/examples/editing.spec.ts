@@ -1,9 +1,12 @@
-import { test } from '../fixtures/fixtures';
+import { test } from '../../fixtures/fixtures';
 
+// Not part of the CI smoke suite - see README.md. Writes to the live,
+// shared Wikipedia:Sandbox page and can be affected by anti-abuse
+// checks (e.g. CAPTCHA) that this suite doesn't try to solve.
 test.describe('Sandbox Editing', () => {
-  let uniqueText = `Test ${Date.now()}`; // Generate unique text for each test run to ensure uniqueness
-  let editSummary = 'Cypress test: summary text'; // Define a standard edit summary for all edits
-  let textWith450Symbols = 'abqwertyui'.repeat(45); // Generate a long string of 450 characters
+  const uniqueText = `Test ${Date.now()}`; // Generate unique text for each test run to ensure uniqueness
+  const editSummary = 'Playwright test: summary text'; // Define a standard edit summary for all edits
+  const textWith450Symbols = 'abqwertyui'.repeat(45); // Generate a long string of 450 characters
 
   // Test adding text with typical characters and verify changes
   test('Edits the sandbox by adding text with characters', async ({ sandboxPage }) => {
