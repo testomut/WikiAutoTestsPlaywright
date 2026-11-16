@@ -1,3 +1,5 @@
+> **This project has moved to [testomut/playwright](https://github.com/testomut/playwright/tree/main/js/WikiAutoTestsPlaywright)**, together with its full history. This repository is archived and kept read-only so existing links keep working.
+
 # Wikipedia Playwright Reference Project
 
 [![Playwright Smoke](https://github.com/testomut/WikiAutoTestsPlaywright/actions/workflows/playwright.yml/badge.svg)](https://github.com/testomut/WikiAutoTestsPlaywright/actions/workflows/playwright.yml)
